@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "cattleId": "C001",
+    "name": "Daisy",
+    "tag": "T101",
+    "date": "2023-01-05",
+    "milkProduced": 15,
+    "births": 0,
+    "sales": 5
+  },
+  {
+    "id": 2,
+    "cattleId": "C002",
+    "name": "Bella",
+    "tag": "T102",
+    "date": "2023-02-10",
+    "milkProduced": 18,
+    "births": 1,
+    "sales": 8
+  },
+  {
+    "id": 3,
+    "cattleId": "C003",
+    "name": "Molly",
+    "tag": "T103",
+    "date": "2023-03-15",
+    "milkProduced": 20,
+    "births": 0,
+    "sales": 10
+  },
+  {
+    "id": 4,
+    "cattleId": "C004",
+    "name": "Rosie",
+    "tag": "T104",
+    "date": "2024-04-05",
+    "milkProduced": 25,
+    "births": 1,
+    "sales": 5
+  },
+  {
+    "id": 5,
+    "cattleId": "C005",
+    "name": "Luna",
+    "tag": "T105",
+    "date": "2024-05-20",
+    "milkProduced": 22,
+    "births": 0,
+    "sales": 7
+  },
+  {
+    "id": 6,
+    "cattleId": "C006",
+    "name": "Ella",
+    "tag": "T106",
+    "date": "2024-06-18",
+    "milkProduced": 30,
+    "births": 1,
+    "sales": 12
+  },
+  {
+    "id": 7,
+    "cattleId": "C007",
+    "name": "Ruby",
+    "tag": "T107",
+    "date": "2025-07-10",
+    "milkProduced": 27,
+    "births": 0,
+    "sales": 15
+  },
+  {
+    "id": 8,
+    "cattleId": "C008",
+    "name": "Maggie",
+    "tag": "T108",
+    "date": "2025-08-12",
+    "milkProduced": 24,
+    "births": 1,
+    "sales": 6
+  },
+  {
+    "id": 9,
+    "cattleId": "C009",
+    "name": "Lucy",
+    "tag": "T109",
+    "date": "2025-09-05",
+    "milkProduced": 28,
+    "births": 0,
+    "sales": 9
+  },
+  {
+    "id": 10,
+    "cattleId": "C010",
+    "name": "Lily",
+    "tag": "T110",
+    "date": "2025-10-25",
+    "milkProduced": 32,
+    "births": 1,
+    "sales": 14
+  }
+]

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treatment Records</title>
+    <link rel="stylesheet" href="./css/treatment.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    .treatment-container {
+        max-width: 900px;
+        margin: auto;
+    }
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .summary-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding: 10px;
+        background: #f2f2f2;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .summary-item {
+        font-weight: bold;
+    }
+    .treatment-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .treatment-table th, .treatment-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+    .treatment-table th {
+        background: #66A76F;
+        color: white;
+    }
+    .filter-container {
+        margin-bottom: 15px;
+    }
+    .add-treatment-btn, .back-btn, .print-btn {
+        background: #66A76F;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .back-btn:hover, .print-btn:hover, .add-treatment-btn:hover {
+        background: #4C8B5F;
+    }
+</style>
+<body>
+    <div class="treatment-container">
+        <div class="header-container">
+            <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+            <button class="print-btn" onclick="printPage()">🖨️ Print</button>
+        </div>
+        
+        <div class="header-container">
+            <h2>Treatment Records</h2>
+            <button class="add-treatment-btn" onclick="addTreatment()">Add New Record</button>
+        </div>
+        
+        <div class="summary-container">
+            <div class="summary-item">Total Treatments: <span id="total-treatments">0</span></div>
+            <div class="summary-item">Recovered: <span id="recovered">0</span></div>
+            <div class="summary-item">Deceased: <span id="deceased">0</span></div>
+        </div>
+        
+        <div class="filter-container">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date">
+            <label for="status-filter">Status:</label>
+            <select id="status-filter">
+                <option value="all">All</option>
+                <option value="Under Treatment">Under Treatment</option>
+                <option value="Recovered">Recovered</option>
+                <option value="Deceased">Deceased</option>
+            </select>
+            <button onclick="filterTreatment()">Filter</button>
+        </div>
+        
+        <table class="treatment-table">
+            <thead>
+                <tr>
+                    <th>Cattle ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Disease</th>
+                    <th>Diagnosis</th>
+                    <th>Treatment</th>
+                    <th>Cost</th>
+                    <th>Doctor</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="treatment-body">
+                <!-- Treatment records will be populated here -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        function printPage() {
+            window.print();
+        }
+        
+        function addTreatment() {
+            alert("Feature coming soon!");
+        }
+      
+        async function fetchTreatmentData() {
+            try {
+                const response = await fetch('treatment.json');
+                const data = await response.json();
+                populateTable(data);
+            } catch (error) {
+                console.error("Error fetching treatment data:", error);
+            }
+        }
+
+        function populateTable(data) {
+            const tableBody = document.getElementById("treatment-body");
+            tableBody.innerHTML = "";
+
+            let totalTreatments = 0;
+            let recoveredCount = 0;
+            let deceasedCount = 0;
+
+            data.forEach(record => {
+                totalTreatments++;
+                if (record.status === "Recovered") recoveredCount++;
+                if (record.status === "Deceased") deceasedCount++;
+
+                const row = `<tr ${record.status === "Deceased" ? 'style="background-color: #ffcccc;"' : ''}>
+                    <td>${record.id}</td>
+                    <td>${record.name}</td>
+                    <td>${record.date}</td>
+                    <td>${record.disease}</td>
+                    <td>${record.diagnosis}</td>
+                    <td>${record.treatment}</td>
+                    <td>${record.cost} UGX</td>
+                    <td>${record.doctor}</td>
+                    <td>${record.status}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+
+            document.getElementById("total-treatments").textContent = totalTreatments;
+            document.getElementById("recovered").textContent = recoveredCount;
+            document.getElementById("deceased").textContent = deceasedCount;
+        }
+
+        function filterTreatment() {
+            const startDate = document.getElementById("start-date").value;
+            const endDate = document.getElementById("end-date").value;
+            const statusFilter = document.getElementById("status-filter").value;
+            
+            fetch('treatment.json')
+                .then(response => response.json())
+                .then(data => {
+                    let filteredData = data.filter(record => {
+                        let validDate = (!startDate || record.date >= startDate) && (!endDate || record.date <= endDate);
+                        let validStatus = statusFilter === "all" || record.status === statusFilter;
+                        return validDate && validStatus;
+                    });
+                    populateTable(filteredData);
+                })
+                .catch(error => console.error("Error fetching treatment data:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchTreatmentData);
+    </script>
+</body>
+</html>

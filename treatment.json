@@ -1,0 +1,114 @@
+[
+  {
+      "id": "C001",
+      "name": "Bella",
+      "date": "2024-01-15",
+      "disease": "Mastitis",
+      "diagnosis": "Inflamed udder",
+      "treatment": "Antibiotic injection",
+      "cost": 15000,
+      "doctor": "Dr. Kasirye",
+      "status": "Recovered"
+  },
+  {
+      "id": "C002",
+      "name": "Max",
+      "date": "2024-02-10",
+      "disease": "Foot Rot",
+      "diagnosis": "Swollen hoof",
+      "treatment": "Antibiotics & hoof cleaning",
+      "cost": 18000,
+      "doctor": "Dr. Kasirye",
+      "status": "Recovered"
+  },
+  {
+      "id": "C003",
+      "name": "Daisy",
+      "date": "2024-03-22",
+      "disease": "Bloat",
+      "diagnosis": "Excessive stomach gas",
+      "treatment": "Stomach tube & anti-gas medication",
+      "cost": 12000,
+      "doctor": "Dr. Kasirye",
+      "status": "Recovered"
+  },
+  {
+      "id": "C004",
+      "name": "Charlie",
+      "date": "2024-04-05",
+      "disease": "Tick Fever",
+      "diagnosis": "High fever & weakness",
+      "treatment": "Tick dip & anti-parasites",
+      "cost": 25000,
+      "doctor": "Dr. Mugisha",
+      "status": "Deceased",
+      "deceased": true
+  },
+  {
+      "id": "C005",
+      "name": "Luna",
+      "date": "2024-05-18",
+      "disease": "Pneumonia",
+      "diagnosis": "Labored breathing",
+      "treatment": "Antibiotics & anti-inflammatory drugs",
+      "cost": 20000,
+      "doctor": "Dr. Kasirye",
+      "status": "Recovered"
+  },
+  {
+      "id": "C006",
+      "name": "Rocky",
+      "date": "2024-06-25",
+      "disease": "Lumpy Skin Disease",
+      "diagnosis": "Skin lesions & fever",
+      "treatment": "Vaccination & wound care",
+      "cost": 30000,
+      "doctor": "Dr. Kasirye",
+      "status": "Recovered"
+  },
+  {
+      "id": "C007",
+      "name": "Molly",
+      "date": "2024-07-30",
+      "disease": "Mastitis",
+      "diagnosis": "Inflamed udder",
+      "treatment": "Antibiotic injection",
+      "cost": 15000,
+      "doctor": "Dr. Kasirye",
+      "status": "Recovered"
+  },
+  {
+      "id": "C008",
+      "name": "Buster",
+      "date": "2024-08-12",
+      "disease": "Foot Rot",
+      "diagnosis": "Swollen hoof",
+      "treatment": "Antibiotics & hoof cleaning",
+      "cost": 18000,
+      "doctor": "Dr. Kasirye",
+      "status": "Recovered"
+  },
+  {
+      "id": "C009",
+      "name": "Ruby",
+      "date": "2024-09-05",
+      "disease": "Bloat",
+      "diagnosis": "Excessive stomach gas",
+      "treatment": "Stomach tube & anti-gas medication",
+      "cost": 12000,
+      "doctor": "Dr. Ssenozi",
+      "status": "Recovered"
+  },
+  {
+      "id": "C010",
+      "name": "Duke",
+      "date": "2024-10-10",
+      "disease": "Anthrax",
+      "diagnosis": "Severe swelling & sudden collapse",
+      "treatment": "Emergency antibiotics",
+      "cost": 35000,
+      "doctor": "Dr. Mugisha",
+      "status": "Deceased",
+      "deceased": true
+  }
+]

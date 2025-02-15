@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Production</title>
+    <link rel="stylesheet" href="./css/production.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    .production-container {
+        max-width: 800px;
+        margin: auto;
+    }
+    .production-summary {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding: 10px;
+        background: #f2f2f2;
+        border-radius: 5px;
+        margin-bottom: 20px; /* Added margin below totals */
+    }
+    .summary-item {
+        font-weight: bold;
+    }
+    .back-btn, .print-btn {
+        background: #66A76F;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 15px;
+    }
+    .back-btn:hover, .print-btn:hover {
+        background: #4C8B5F;
+    }
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .production-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .production-table th, .production-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+    .production-table th {
+        background: #66A76F;
+        color: white;
+    }
+    .add-production-btn {
+        background: #66A76F;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 15px;
+    }
+    .total-production {
+        font-weight: bold;
+    }
+    .filter-container {
+        margin-bottom: 15px;
+    }
+</style>
+<body>
+    <div class="production-container">
+        <div class="header-container">
+            <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+            <button class="print-btn" onclick="printPage()">🖨️ Print</button>
+        </div>
+        
+        <div class="header-container">
+            <h2>Farm Production</h2>
+            <button class="add-production-btn" onclick="addProduction()">Add New Record</button>
+        </div>
+
+        <div class="production-summary">
+          <div class="summary-item">Milk Production: <span id="milk-production">0</span> liters</div>
+          <div class="summary-item">Meat Production: <span id="meat-production">0</span> kg</div>
+          <div class="summary-item">Total Births: <span id="total-births">0</span></div>
+      </div>
+
+        <div class="filter-container">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date">
+            <button onclick="filterProduction()">Filter</button>
+        </div>
+        
+        <div id="monthly-production">
+            <!-- Monthly production tables will be inserted here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function printPage() {
+            window.print();
+        }
+
+        let production = [];
+
+        async function fetchProduction() {
+            try {
+                const response = await fetch('production.json');
+                production = await response.json();
+                renderProduction();
+            } catch (error) {
+                console.error("Error loading production data:", error);
+            }
+        }
+
+        function groupProductionByMonth(filteredProduction) {
+            const monthlyProduction = {};
+
+            filteredProduction.forEach(record => {
+                const date = new Date(record.date);
+                const monthYear = `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
+                
+                if (!monthlyProduction[monthYear]) {
+                    monthlyProduction[monthYear] = { total: 0, records: [] };
+                }
+                monthlyProduction[monthYear].records.push(record);
+                monthlyProduction[monthYear].total += record.milkProduced;
+            });
+
+            return monthlyProduction;
+        }
+
+        function renderProduction(filteredProduction = production) {
+            const monthlyContainer = document.getElementById("monthly-production");
+            const totalProduction = document.getElementById("total-production");
+            monthlyContainer.innerHTML = "";
+            let total = 0;
+
+            const groupedProduction = groupProductionByMonth(filteredProduction);
+            
+            for (const [monthYear, data] of Object.entries(groupedProduction)) {
+                total += data.total;
+                
+                let tableHTML = `<h3>${monthYear} (Total: ${data.total.toLocaleString()} liters)</h3>
+                    <table class="production-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Milk Produced (Liters)</th>
+                                <th>Births</th>
+                                <th>Sales (Liters)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+                
+                data.records.forEach((record, index) => {
+                    tableHTML += `
+                        <tr>
+                            <td>${record.date}</td>
+                            <td>${record.milkProduced}</td>
+                            <td>${record.births}</td>
+                            <td>${record.sales}</td>
+                            <td><button onclick="deleteProduction(${index})">Delete</button></td>
+                        </tr>`;
+                });
+                
+                tableHTML += `</tbody></table>`;
+                monthlyContainer.innerHTML += tableHTML;
+            }
+            
+            totalProduction.textContent = total.toLocaleString();
+        }
+
+        function addProduction() {
+            alert("Feature coming soon");
+        }
+
+        function deleteProduction(index) {
+            production.splice(index, 1);
+            renderProduction();
+        }
+
+        function filterProduction() {
+            const startDate = new Date(document.getElementById("start-date").value);
+            const endDate = new Date(document.getElementById("end-date").value);
+
+            if (!startDate || !endDate || isNaN(startDate) || isNaN(endDate)) {
+                alert("Please select valid start and end dates.");
+                return;
+            }
+
+            const filteredProduction = production.filter(record => {
+                const recordDate = new Date(record.date);
+                return recordDate >= startDate && recordDate <= endDate;
+            });
+            
+            renderProduction(filteredProduction);
+        }
+
+        fetchProduction();
+    </script>
+</body>
+</html>
