@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Expenditures</title>
+    <link rel="stylesheet" href="./css/expenditures.css">
+</head>
+
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+  }
+  .expenditures-container {
+      max-width: 800px;
+      margin: auto;
+  }
+  .back-btn, .print-btn {
+        background: #66A76F;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 15px;
+    }
+    .back-btn:hover, .print-btn:hover {
+        background: #4C8B5F;
+    }
+  .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+  .expense-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+  }
+  .expense-table th, .expense-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+  }
+  .expense-table th {
+      background: #66A76F;
+      color: white;
+  }
+  .add-expense-btn {
+      background: #66A76F;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+  }
+  .total-cost {
+      font-weight: bold;
+      margin-top: 20px;
+  }
+</style>
+<body>
+    <div class="expenditures-container">
+      <div class="header-container">
+        <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+        <button class="print-btn" onclick="printPage()">🖨️ Print</button>
+    </div>
+
+        <div class="header-container">
+          <h2>Farm Expenditures</h2>
+          <p class="total-cost">Total Expenditures: UGX <span id="total-expenditure">0</span></p>
+          <button class="add-expense-btn" onclick="addExpense()">Add New Expense</button>
+      </div>
+
+        <div id="monthly-expenses">
+            <!-- Monthly expense tables will be inserted here dynamically -->
+        </div>
+
+    </div>
+
+    <script>
+      function goBack() {
+          window.history.back();
+      }
+
+      let expenses = [];
+
+      async function fetchExpenses() {
+          try {
+              const response = await fetch('expenses.json');
+              expenses = await response.json();
+              renderExpenses();
+          } catch (error) {
+              console.error("Error loading expenses:", error);
+          }
+      }
+
+      function groupExpensesByMonth() {
+          const monthlyExpenses = {};
+
+          expenses.forEach(expense => {
+              const date = new Date(expense.date);
+              const monthYear = `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
+              
+              if (!monthlyExpenses[monthYear]) {
+                  monthlyExpenses[monthYear] = { total: 0, records: [] };
+              }
+              monthlyExpenses[monthYear].records.push(expense);
+              monthlyExpenses[monthYear].total += expense.amount;
+          });
+
+          return monthlyExpenses;
+      }
+
+      function renderExpenses() {
+          const monthlyContainer = document.getElementById("monthly-expenses");
+          const totalExpenditure = document.getElementById("total-expenditure");
+          monthlyContainer.innerHTML = "";
+          let total = 0;
+
+          const groupedExpenses = groupExpensesByMonth();
+          
+          for (const [monthYear, data] of Object.entries(groupedExpenses)) {
+              total += data.total;
+              
+              let tableHTML = `<h3>${monthYear} (Total: UGX ${data.total.toLocaleString()})</h3>
+                  <table class="expense-table">
+                      <thead>
+                          <tr>
+                              <th>Date</th>
+                              <th>Category</th>
+                              <th>Description</th>
+                              <th>Amount</th>
+                              <th>Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody>`;
+              
+              data.records.forEach((expense, index) => {
+                  tableHTML += `
+                      <tr>
+                          <td>${expense.date}</td>
+                          <td>${expense.category}</td>
+                          <td>${expense.description}</td>
+                          <td>UGX ${expense.amount.toLocaleString()}</td>
+                          <td><button onclick="deleteExpense(${expense.id})">Delete</button></td>
+
+                      </tr>`;
+              });
+              
+              tableHTML += `</tbody></table>`;
+              monthlyContainer.innerHTML += tableHTML;
+          }
+          
+          totalExpenditure.textContent = total.toLocaleString();
+      }
+
+      function addExpense() {
+          alert("Feature coming soon");
+      }
+
+      function deleteExpense(expenseId) {
+    expenses = expenses.filter(expense => expense.id !== expenseId);
+    renderExpenses();
+}
+
+
+      fetchExpenses();
+  </script>
+</body>
+</html>

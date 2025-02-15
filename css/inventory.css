@@ -1,0 +1,80 @@
+.inventory-container {
+  padding: 20px;
+}
+
+.back-btn, .add-btn {
+  background: #66A76F;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-btn:hover, .add-btn:hover {
+  background: #4C8B5F;
+}
+.summary-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.summary-card {
+  background: #81C784;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: bold;
+  flex: 1;
+}
+
+.search-filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-bar, .filter-dropdown {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.animal-list {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.animal-list th, .animal-list td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.animal-list th {
+  background-color: #66A76F;
+  color: white;
+}
+
+.animal-list tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.animal-list td {
+  padding: 12px;
+}
+
+.details-btn {
+  background: #66A76F;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.details-btn:hover {
+  background: #4C8B5F;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Profile</title>
+    <link rel="stylesheet" href="./css/profile.css">
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <button class="btn btn-back" onclick="goBack()">← Back</button>
+            <button class="btn btn-print" onclick="printProfile()">🖨 Print</button>
+        </div>
+        <!-- Cover Photo -->
+        <div class="cover-photo">
+            <img id="cover-photo" src="" alt="Cover Photo">
+            <img id="profile-photo" class="profile-photo" src="" alt="Animal Profile">
+        </div>
+
+        <!-- Animal Bio Section -->
+        <div class="animal-bio">
+            <h2 id="animal-name"></h2>
+            <div class="animal-details">
+                <div class="detail">ID: <span id="animal-id"></span></div>
+                <div class="detail">Tag: <span id="animal-tag"></span></div>
+                <div class="detail">Breed: <span id="animal-breed"></span></div>
+                <div class="detail">Sex: <span id="animal-gender"></span></div>
+                <div class="detail">DOB: <span id="animal-dob"></span></div>
+                <div class="detail">Color: <span id="animal-color"></span></div>
+                <div class="detail">Weight: <span id="animal-weight"></span></div>
+                <div class="detail">Health: <span id="animal-health"></span></div>
+                <div class="detail">Mother: <span id="mother-name"></span></div>
+                <div class="detail">Father: <span id="father-name"></span></div>
+            </div>
+        </div>
+
+        <!-- Treatment History Table -->
+        <h3 style="text-align: center; margin-top: 20px;">Treatment History</h3>
+        <table class="treatment-history">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Disease</th>
+                    <th>Symptoms</th>
+                    <th>Treatment</th>
+                    <th>Doctor</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="treatment-table">
+                <!-- Data will be added dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+         function goBack() {
+    window.history.back();
+  }
+  function printProfile() {
+    window.print();
+}
+          // Function to get query parameters from the URL
+          function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Fetch data from the JSON file
+        fetch("cattle_data.json")
+            .then(response => response.json())
+            .then(data => {
+                const animalId = getQueryParam("id"); // Get the cow ID from the URL
+                const cow = data.find(cow => cow.id === animalId);
+
+                if (cow) {
+                    document.getElementById("cover-photo").src = cow.coverPhoto;
+                    document.getElementById("profile-photo").src = cow.profilePhoto;
+                    document.getElementById("animal-name").textContent = cow.name;
+                    document.getElementById("animal-id").textContent = cow.id;
+                    document.getElementById("animal-tag").textContent = cow.tag;
+                    document.getElementById("animal-breed").textContent = cow.breed;
+                    document.getElementById("animal-gender").textContent = cow.gender;
+                    document.getElementById("animal-dob").textContent = cow.dob;
+                    document.getElementById("animal-color").textContent = cow.color;
+                    document.getElementById("animal-weight").textContent = cow.weight;
+                    document.getElementById("animal-health").textContent = cow.health;
+                    document.getElementById("mother-name").textContent = cow.motherId;
+                    document.getElementById("father-name").textContent = cow.fatherId;
+
+                    // Populate treatment history
+                    const treatmentTable = document.getElementById("treatment-table");
+                    cow.treatmentHistory.forEach(treatment => {
+                        const row = `<tr>
+                            <td>${treatment.date}</td>
+                            <td>${treatment.disease}</td>
+                            <td>${treatment.symptoms}</td>
+                            <td>${treatment.treatment}</td>
+                            <td>${treatment.doctor}</td>
+                            <td>${treatment.status}</td>
+                        </tr>`;
+                        treatmentTable.innerHTML += row;
+                    });
+                } else {
+                    alert("Animal not found.");
+                }
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    </script>
+</body>
+</html>

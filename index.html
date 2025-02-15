@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Manager - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+      <div class="overlay"></div>
+      <h1>Welcome to Farm Manager</h1>
+  </header>
+
+  <div class="dashboard-container">
+
+      <!-- Left Summary Panel -->
+      <aside class="summary-panel">
+        <div class="summary-box activities-summary" onclick="window.location.href='activities.html'">
+          <h3>📅 Today's Activities</h3>
+          <div class="activities-list">
+              <div class="activity-item">
+                  <span class="activity-icon">🐄</span> Fed all cattle
+              </div>
+              <div class="activity-item">
+                  <span class="activity-icon">💉</span> Vaccinated 5 cows
+              </div>
+              <div class="activity-item">
+                  <span class="activity-icon">🧹</span> Cleaned barn area
+              </div>
+              <div class="activity-item">
+                  <span class="activity-icon">➕</span> More...
+              </div>
+          </div>
+      </div>
+      
+
+          <div class="summary-box production-summary" onclick="window.location.href='production.html'">
+              <h3>📈 Daily Production</h3>
+              <p>Milk: 350L</p>
+              <p>Meat: 25kg</p>
+          </div>
+
+          <div class="summary-box treatment-summary" onclick="window.location.href='treatment.html'">
+              <h3>🩺 Latest Treatments</h3>
+              <p>Cow #045 - Mastitis</p>
+              <p>Cow #089 - Foot Rot</p>
+          </div>
+      </aside>
+
+      <!-- Right Dashboard Cards -->
+      <section class="dashboard-cards-container">
+          <a href="inventory.html" class="dashboard-card inventory">
+              <span class="icon">🐄</span>
+              <h2>Inventory</h2>
+          </a>
+
+          <a href="expenditure.html" class="dashboard-card expenditure">
+              <span class="icon">💰</span>
+              <h2>Expenditure</h2>
+          </a>
+
+          <a href="production.html" class="dashboard-card production">
+              <span class="icon">📈</span>
+              <h2>Production</h2>
+          </a>
+
+          <a href="treatment.html" class="dashboard-card treatment">
+              <span class="icon">🩺</span>
+              <h2>Treatment</h2>
+          </a>
+
+          <a href="activities.html" class="dashboard-card activities">
+              <span class="icon">📅</span>
+              <h2>Activities</h2>
+          </a>
+      </section>
+
+  </div>
+
+  <!-- Footer Section -->
+<footer class="footer">
+  <p>Powered by <a href="https://yourcompanywebsite.com">Kason</a> | &copy; 2025 All Rights Reserved</p>
+</footer>
+
+</body>
+
+</html>

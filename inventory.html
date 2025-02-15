@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Inventory</title>
+    <link rel="stylesheet" href="./css/inventory.css">
+</head>
+<body>
+    <!-- Inventory Page -->
+<div class="inventory-container">
+    <button class="back-btn" onclick="goBack()">&#8592; Back</button>
+    <button class="add-btn" onclick="openAddForm()">+ Add New Cattle</button>
+    <h2>Farm Inventory</h2>
+    
+    <!-- Total Count Summary -->
+    <div class="summary-cards">
+        <div class="summary-card">Total Cattle: <span id="total-cattle">0</span></div>
+        <div class="summary-card">Living: <span id="total-living">0</span></div>
+        <div class="summary-card">Deceased: <span id="total-dead">0</span></div>
+        <div class="summary-card">Heifers: <span id="total-heifers">0</span></div>
+        <div class="summary-card">Bulls: <span id="total-bulls">0</span></div>
+        <div class="summary-card">Cows: <span id="total-cows">0</span></div>
+    </div>
+    
+    <!-- Search and Filter Section -->
+    <div class="search-filter-container">
+        <input type="text" id="search" class="search-bar" placeholder="Search by Name, ID, Tag, or Breed">
+        <select id="filter-gender" class="filter-dropdown">
+            <option value="all">All</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+    </div>
+    
+    <!-- Animal List -->
+    <table class="animal-list">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Tag Number</th>
+                <th>Breed</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="animal-table-body">
+            <!-- Data will be added dynamically -->
+        </tbody>
+    </table>
+</div>
+    <script src="./js/inventory.js"></script>
+</body>
+</html>

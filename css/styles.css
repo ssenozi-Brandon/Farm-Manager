@@ -1,0 +1,187 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F5F5F5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Dashboard Header (Farm Image) */
+.dashboard-header {
+  width: 100%;
+  height: 250px; /* Adjust height as needed */
+  background: url('../images/dashboard\ 1.jpg') no-repeat center center/cover;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Optional Overlay for Better Readability */
+.dashboard-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* Dark transparent overlay */
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Left Section (Summary Panel) */
+.summary-panel {
+  width: 35%;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Summary Box Styling */
+.summary-box {
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.summary-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.activities-summary { background-color: #FFECB3; } /* Light Orange */
+.production-summary { background-color: #FFF59D; } /* Yellow */
+.treatment-summary { background-color: #B3E5FC; } /* Blue */
+
+/* Activities Summary Box */
+.activities-summary {
+  background-color: #FFECB3; /* Light Orange */
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.activities-summary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.activities-summary h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activity-item {
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Activity Icon */
+.activity-icon {
+  font-size: 16px;
+  color: #FFA000; /* Darker Orange */
+}
+
+
+/* Right Section (Dashboard Cards) */
+.dashboard-cards-container {
+  width: 65%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: black;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.dashboard-card .icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Colors */
+.inventory { background-color: #81C784 ; }  /* Light Green */
+.expenditure { background-color: #81C784 ; } /* Light Red */
+.production { background-color: #81C784 ; }  /* Light Yellow */
+.treatment { background-color: #81C784 ; }  /* Light Blue */
+/* Activities Card */
+.activities {
+  background-color: #81C784 ; /* Light Purple */
+  grid-column: span 2; /* Spanning across both columns */
+  height: 130px; /* Slightly reduced from 150px */
+}
+
+/* Footer Styling with Calligraphic Font */
+.footer {
+  width: 100%;
+  background-color: #2E7D32; /* Dark Green */
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  font-family: 'Dancing Script', cursive; /* Calligraphic Font */
+  position: relative;
+  bottom: 0;
+}
+
+.footer a {
+  color: #FFEB3B; /* Yellow Accent */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+
