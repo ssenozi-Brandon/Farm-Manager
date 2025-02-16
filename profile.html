@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Profile</title>
+    <link rel="stylesheet" href="./css/profile.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90vw;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 30px;
+            margin: 30px auto;
+            box-sizing: border-box;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .profile-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+        .details-container {
+            display: flex;
+            flex-grow: 1;
+            gap: 20px;
+        }
+        .bio-details, .awards-details {
+            flex: 1;
+        }
+        .section {
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            max-width: 1200px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .back-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
+        h2, h3 {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">⬅️ Back</button>
+    <div class="container">
+        <div class="profile-header">
+            <img id="profile-photo" class="profile-photo" src="" alt="Profile Photo">
+            <div class="details-container">
+                <div class="bio-details">
+                    <h2 id="employee-name">Employee Name</h2>
+                    <p><strong>Role:</strong> <span id="employee-role"></span></p>
+                    <p><strong>Email:</strong> <span id="employee-email"></span></p>
+                    <p><strong>Phone:</strong> <span id="employee-phone"></span></p>
+                    <p><strong>Department:</strong> <span id="employee-department"></span></p>
+                </div>
+                <div class="awards-details">
+                    <h3>Employee of the Month</h3>
+                    <p><strong>Times Awarded:</strong> <span id="employee-awards"></span></p>
+                    <h3>Education History</h3>
+                    <ul id="education-history"></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Latest Activities</h3>
+            <ul id="latest-activities"></ul>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        async function fetchEmployeeProfile() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const employeeId = urlParams.get('id');
+                if (!employeeId) return;
+
+                const response = await fetch('employees.json');
+                const employees = await response.json();
+                const employee = employees.find(emp => emp.id == employeeId);
+
+                if (employee) {
+                    document.getElementById("employee-name").innerText = employee.name;
+                    document.getElementById("employee-role").innerText = employee.role;
+                    document.getElementById("employee-email").innerText = employee.email;
+                    document.getElementById("employee-phone").innerText = employee.phone;
+                    document.getElementById("employee-department").innerText = employee.department;
+                    document.getElementById("profile-photo").src = employee.photo || 'default-profile.png';
+                    
+                    const educationList = document.getElementById("education-history");
+                    educationList.innerHTML = employee.education.map(edu => `<li>${edu}</li>`).join('');
+                    
+                    document.getElementById("employee-awards").innerText = employee.employee_of_the_month_count || 0;
+                    
+                    const activitiesList = document.getElementById("latest-activities");
+                    activitiesList.innerHTML = employee.latest_activities.map(act => `<li>${act}</li>`).join('');
+                }
+            } catch (error) {
+                console.error("Error fetching employee profile:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchEmployeeProfile);
+    </script>
+</body>
+</html>

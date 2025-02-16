@@ -1,16 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cattle Activities</title>
+    <link rel="stylesheet" href="./css/cattle_activities.css">
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          padding: 20px;
+          background-color: #f9f9f9;
+      }
+      .activity-container {
+          max-width: 1000px;
+          margin: auto;
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .header-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+      }
+      .header-container button {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      .header-container button:hover {
+          background-color: #45a049;
+      }
+      .activity-cards {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 15px;
+          justify-content: space-around;
+          margin-bottom: 20px;
+      }
+      .activity-card {
+          background: #66A76F;
+          color: white;
+          padding: 20px;
+          border-radius: 8px;
+          text-align: center;
+          cursor: pointer;
+          flex: 1;
+          min-width: 150px;
+      }
+      .activity-card:hover {
+          background: #4C8B5F;
+      }
+      .employee-card {
+          background: #E6F4EA;
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 20px;
+          text-align: center;
+          cursor: pointer;
+      }
+      .employee-card:hover {
+          background: #D1E7D3;
+      }
+      .worker-assignments {
+          background: #ECF7EC;
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 20px;
+          box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .worker-assignments h3 {
+          color: #4C8B5F;
+      }
+      .worker-assignments b {
+          color: #FFFFFF;
+          background: #2F6B3A;
+          display: inline-block;
+          padding: 5px 10px;
+          border-radius: 4px;
+          margin-top: 10px;
+      }
+      .worker-assignments ul {
+          list-style-type: none;
+          padding: 0;
+      }
+      .worker-assignments li {
+          background: #DFF0D8;
+          padding: 8px;
+          margin: 5px 0;
+          border-radius: 5px;
+      }
+      .filter-container {
+          margin: 20px 70px;
+          background: #fff;
+          padding: 15px;
+          border-radius: 8px;
+      }
+      .filter-container button {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      .filter-container button:hover {
+          background-color: #45a049;
+      }
+  </style>
 </head>
 <body>
-  
+    <div class="activity-container">
+        <div class="header-container">
+            <button onclick="goBack()">⬅️ Back</button>
+            <h2>Cattle Activities</h2>
+            <button onclick="printPage()">🖨️ Print</button>
+        </div>
+
+        <div class="activity-cards">
+            <div class="activity-card" onclick="location.href='feeding.html'">Feeding</div>
+            <div class="activity-card" onclick="location.href='breeding.html'">Breeding</div>
+            <div class="activity-card" onclick="location.href='vaccination.html'">Vaccination</div>
+            <div class="activity-card" onclick="location.href='weight.html'">Weight Tracking</div>
+        </div>
+
+        <div class="employee-card" onclick="location.href='employees.html'">
+            <h3>Employee Management</h3>
+            <p>View and manage all employees</p>
+        </div>
+
+        <div class="filter-container">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date">
+            <button onclick="fetchWorkerAssignments()">Filter</button>
+        </div>
+
+        <div class="worker-assignments">
+            <h3>Worker Assignments</h3>
+            <div id="assignments-list"></div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function printPage() {
+            window.print();
+        }
+
+        async function fetchWorkerAssignments() {
+    try {
+        const response = await fetch('activities.json');
+        const data = await response.json();
+        const startDate = document.getElementById("start-date").value;
+        const endDate = document.getElementById("end-date").value;
+        displayAssignments(data, startDate, endDate);
+    } catch (error) {
+        console.error("Error fetching activities data:", error);
+    }
+}
+
+function displayAssignments(data, startDate, endDate) {
+    const assignmentsList = document.getElementById("assignments-list");
+    assignmentsList.innerHTML = "";
+
+    data.forEach(activity => {
+        if ((!startDate || activity.date >= startDate) && (!endDate || activity.date <= endDate)) {
+            const assignmentBlock = `
+                <b>${activity.date}</b>
+                <ul>
+                    <li><strong>Feeding:</strong> ${activity.feeding}</li>
+                    <li><strong>Breeding:</strong> ${activity.breeding}</li>
+                    <li><strong>Vaccination:</strong> ${activity.vaccination}</li>
+                    <li><strong>Weight Tracking:</strong> ${activity.weight_tracking}</li>
+                </ul>
+            `;
+            assignmentsList.innerHTML += assignmentBlock;
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", fetchWorkerAssignments);
+
+    </script>
 </body>
 </html>

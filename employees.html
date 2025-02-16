@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees</title>
+    <link rel="stylesheet" href="./css/employees.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .header-container button:hover {
+            background-color: #45a049;
+        }
+
+        .employee-month {
+            background: #C8E6C9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .employee-month h3 {
+            margin-bottom: 5px;
+        }
+        .employee-month button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .employee-month button:hover {
+            background-color: #45a049;
+        }
+        .search-container {
+            margin: 15px 20px 15px 100px;
+        }
+        .search-container input {
+            padding: 8px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .employee-card {
+            background: #E6F4EA;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .employee-card button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .employee-card button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <button onclick="goBack()">⬅️ Back</button>
+            <h2>Employee Management</h2>
+            <button onclick="addEmployee()">➕ Add Employee</button>
+        </div>
+        
+        <div class="employee-month" id="employee-month">
+          <h3>Employee of the Month</h3>
+          <p id="month-employee-name">John Doe - Senior Manager</p>
+          <button onclick="viewProfile(1)">View Profile</button>
+      </div>
+
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Search employee..." onkeyup="searchEmployee()">
+        </div>
+        
+        <div class="employee-grid" id="employee-grid"></div>
+    </div>
+
+     <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        async function fetchEmployees() {
+            try {
+                const response = await fetch('employees.json');
+                const employees = await response.json();
+                displayEmployees(employees);
+                displayEmployeeOfTheMonth(employees);
+            } catch (error) {
+                console.error("Error fetching employees:", error);
+            }
+        }
+
+        function displayEmployees(employees) {
+            const grid = document.getElementById("employee-grid");
+            grid.innerHTML = "";
+            employees.forEach(emp => {
+                const card = `<div class='employee-card'>
+                                <h3>${emp.name}</h3>
+                                <p>${emp.role}</p>
+                                <button onclick='viewProfile(${emp.id})'>View Profile</button>
+                              </div>`;
+                grid.innerHTML += card;
+            });
+        }
+
+        function displayEmployeeOfTheMonth(employees) {
+            if (employees.length > 0) {
+                const employee = employees[Math.floor(Math.random() * employees.length)];
+                document.getElementById("month-employee-name").innerText = `${employee.name} - ${employee.role}`;
+                document.querySelector(".employee-month button").setAttribute("onclick", `viewProfile(${employee.id})`);
+            }
+        }
+
+        function searchEmployee() {
+            const query = document.getElementById("search").value.toLowerCase();
+            const employees = document.querySelectorAll(".employee-card");
+            employees.forEach(emp => {
+                emp.style.display = emp.innerText.toLowerCase().includes(query) ? "block" : "none";
+            });
+        }
+
+        function viewProfile(id) {
+            window.location.href = `profile.html?id=${id}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchEmployees);
+    </script>
+</body>
+</html>
